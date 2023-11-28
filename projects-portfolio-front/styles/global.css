@@ -1,0 +1,30 @@
+body {
+  background: linear-gradient(to bottom right, var(--clr-accent-dark), var(--clr-accent-dark-b) 100vh);
+  color: var(--clr-black);
+  font-family: var(--font-pri);
+}
+
+main {
+  width: min(90%, 980px);
+  margin: 0 auto;
+  background-color: var(--clr-white);
+  min-height: 100svh;
+  padding: 50px 25px;
+  box-shadow: var(--box-shadow-pri);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-h);
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+.center {
+  text-align: center;
+}

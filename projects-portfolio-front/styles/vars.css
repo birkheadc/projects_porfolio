@@ -1,0 +1,10 @@
+:root {
+  --clr-black: #2E3138;
+  --clr-white: #FBFBFF;
+
+  --clr-accent-light: #ECCBD9;
+  --clr-accent-dark: #878472;
+  --clr-accent-dark-b: #ABA89C;
+
+  --box-shadow-pri: 5px 5px 5px var(--clr-black), -5px -5px 5px var(--clr-black);
+}

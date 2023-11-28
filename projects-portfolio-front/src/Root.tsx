@@ -1,4 +1,9 @@
 import * as React from 'react';
+import PagesRouter from './components/pages/PagesRouter';
+import PrimaryNav from './components/nav/PrimaryNav';
+import { ProjectsContext, ProjectsProvider } from './components/contexts/projects/ProjectsContext';
+import { AppStatus } from './types/status/appStatus';
+import api from './api';
 
 interface IRootProps {
 
@@ -9,7 +14,35 @@ interface IRootProps {
 * @returns {JSX.Element | null}
 */
 export default function Root(props: IRootProps): JSX.Element | null {
+
+  const [status, setStatus] = React.useState<AppStatus>(AppStatus.INITIAL);
+  const { projects, setProjects } = React.useContext(ProjectsContext);
+
+  React.useEffect(() => {
+    (async function fetchProjects() {
+      setStatus(AppStatus.LOADING);
+      const result = await api.projects.getAll();
+
+      if (result.wasSuccess === false || result.body == null) {
+        setStatus(AppStatus.ERROR);
+        return;
+      }
+
+      setProjects(result.body);
+      setStatus(AppStatus.READY);
+    })();
+  }, []);
+
+  if (status !== AppStatus.READY) {
+    return (
+      <h1>{status}</h1>
+    );
+  }
+
   return (
-    <h1>Your app works.</h1>
+    <>
+      <PrimaryNav />
+      <PagesRouter />
+    </>
   );
 }
