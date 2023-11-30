@@ -28,3 +28,41 @@ h2 {
 .center {
   text-align: center;
 }
+
+button.center {
+  margin: 0 auto;
+}
+
+.right-align {
+  display: block;
+  margin: 0 0 0 auto;
+}
+
+button.shadow {
+  border: var(--border-pri);
+  padding: 5px 10px;
+  user-select: none;
+}
+
+button.shadow:hover, button.shadow:focus {
+  box-shadow: var(--box-shadow-sec);
+}
+
+button.shadow:active {
+  box-shadow: var(--box-shadow-click);
+  scale: 0.95;
+}
+
+.space-between-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.error {
+  color: var(--clr-red);
+}
+
+.success {
+  color: var(--clr-green);
+}

@@ -6,5 +6,13 @@
   --clr-accent-dark: #878472;
   --clr-accent-dark-b: #ABA89C;
 
+  --clr-red: #FB3640;
+  --clr-green: #04A777;
+
   --box-shadow-pri: 5px 5px 5px var(--clr-black), -5px -5px 5px var(--clr-black);
+  --box-shadow-sec: 2px 2px 3px var(--clr-black);
+  --box-shadow-click: 1px 1px 1px var(--clr-black);
+
+  --border-pri: solid 2px var(--clr-black);
+  --border-sec: solid 1px var(--clr-accent-dark);
 }

@@ -8,7 +8,7 @@ div.project-display-header {
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 div.project-display-body {
@@ -17,13 +17,35 @@ div.project-display-body {
   justify-content: center;
   align-items: start;
   gap: 10px;
+  text-align: justify;
 }
 
 div.project-display-wrapper a:hover, div.project-display-wrapper a:focus {
   color: var(--clr-accent-dark);
 }
 
+div.project-display-header a:active {
+  scale: 0.95;
+}
+
 div.project-display-wrapper button:hover, div.project-display-wrapper button:focus {
   color: var(--clr-accent-dark);
   cursor: pointer;
+}
+
+button.project-display-delete-button {
+  border: none;
+  padding: 0;
+  user-select:auto;
+}
+
+@media (max-width: 980px) {
+
+  div.project-display-wrapper {
+    width: min(90%, 400px);
+  }
+
+  div.project-display-body {
+    flex-direction: column;
+  }
 }

@@ -1,0 +1,7 @@
+div.description-section-wrapper {
+  border: var(--border-pri);
+  padding: 30px 20px 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

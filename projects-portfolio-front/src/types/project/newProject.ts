@@ -11,7 +11,8 @@ export type NewProject = {
     shortDescriptions: ProjectDescription[],
     longDescriptions: ProjectDescription[]
   },
-  technologies: string[]
+  technologies: string[],
+  [key: string]: string | number | {}
 }
 
 export const BLANK_NEW_PROJECT: NewProject = {

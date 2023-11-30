@@ -1,0 +1,23 @@
+div.bullet-points-section-wrapper {
+  border: var(--border-pri);
+  padding: 30px 20px 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div.bullet-points-section-language-wrapper {
+  border: var(--border-sec);
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div.bullet-point-row {
+  display: flex;
+  flex-direction: row;
+  gap:5px;
+  align-items: center;
+  position: relative;
+}

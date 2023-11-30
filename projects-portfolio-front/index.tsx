@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './styles/reset.css';
 import './styles/vars.css';
 import './styles/fonts.css';
+import './styles/forms.css';
 import './styles/global.css';
 
 import { BrowserRouter } from 'react-router-dom';

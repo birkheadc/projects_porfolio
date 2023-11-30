@@ -1,0 +1,10 @@
+form.project-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  
+  /* width: min(100%, 500px); */
+  margin: 0 auto;
+
+  padding: 20px;
+}

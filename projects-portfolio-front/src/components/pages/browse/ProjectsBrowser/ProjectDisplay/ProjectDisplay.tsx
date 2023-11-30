@@ -28,10 +28,10 @@ export default function ProjectDisplay(props: IProjectDisplayProps): JSX.Element
       <div className='project-display-header'>
         <h2>{project.title}</h2>
         <Link to={`/edit/${project.id}`}>Edit</Link>
-        <button onClick={confirmDelete} type='button'>Delete</button>
+        <button className='project-display-delete-button' onClick={confirmDelete} type='button'>Delete</button>
       </div>
       <div className='project-display-body'>
-        <img src={`https://picsum.photos/seed/${project.id}/400/300`}></img>
+        <img width={400} height={300} src={`https://picsum.photos/seed/${project.id}/400/300`}></img>
         <p>{project.descriptions.shortDescriptions.find(d => d.language === 'en')?.content}</p>
       </div>
     </div>

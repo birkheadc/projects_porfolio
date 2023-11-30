@@ -1,0 +1,14 @@
+div.technologies-section-wrapper {
+  border: var(--border-pri);
+  padding: 30px 20px 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+div.technology-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+}

@@ -4,6 +4,7 @@ import PrimaryNav from './components/nav/PrimaryNav';
 import { ProjectsContext, ProjectsProvider } from './components/contexts/projects/ProjectsContext';
 import { AppStatus } from './types/status/appStatus';
 import api from './api';
+import { SessionContext } from './components/contexts/session/SessionContext';
 
 interface IRootProps {
 
@@ -17,6 +18,11 @@ export default function Root(props: IRootProps): JSX.Element | null {
 
   const [status, setStatus] = React.useState<AppStatus>(AppStatus.INITIAL);
   const { projects, setProjects } = React.useContext(ProjectsContext);
+  const { sessionToken, setSessionToken } = React.useContext(SessionContext);
+
+  React.useEffect(function checkStorageForSessionTokenOnMount() {
+    // TODO
+  }, []);
 
   React.useEffect(() => {
     (async function fetchProjects() {
