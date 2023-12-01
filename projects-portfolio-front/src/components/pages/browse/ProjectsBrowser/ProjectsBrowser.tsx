@@ -15,10 +15,10 @@ interface IProjectsBrowserProps {
 */
 export default function ProjectsBrowser(props: IProjectsBrowserProps): JSX.Element | null {
 
-  const { sessionToken } = React.useContext(SessionContext);
+  const { session } = React.useContext(SessionContext);
 
   const deleteProject = async (id: string) => {
-    await api.projects.deleteProject(id, sessionToken?.token);
+    await api.projects.deleteProject(id, session.token);
   }
 
   return (
