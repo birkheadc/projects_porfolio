@@ -2,16 +2,12 @@ import * as React from 'react';
 import './ResultDisplay.css';
 import { Result } from '../../../types/result/result';
 import { error } from 'console';
-
-interface ResultDisplayProps {
-  result: Result | null
-}
 /**
  * 
  * @param {} props
  * @returns {JSX.Element | null}
  */
-function ResultDisplay(props: ResultDisplayProps): JSX.Element | null {
+function ResultDisplay<T = never>(props: { result: Result<T> | undefined }): JSX.Element | null {
 
   const result = props.result;
 

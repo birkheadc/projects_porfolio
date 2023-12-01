@@ -1,27 +1,23 @@
 import { Result, ResultBuilder } from "../../types/result/result";
 import { LoginCredentials } from "../../types/session/loginCredentials/loginCredentials";
-import { SessionToken } from "../../types/session/sessionToken/sessionToken";
 
-export default async function login(credentials: LoginCredentials): Promise<Result<SessionToken>> {
+export default async function(credentials: LoginCredentials): Promise<Result<string>> {
   console.log('LOGIN: ', credentials);
+  await new Promise(r => setTimeout(r, 2000));
   // Dummy logic, api not yet created
   if (credentials.username === 'good_token') {
-    return new ResultBuilder<SessionToken>()
+    return new ResultBuilder<string>()
       .succeed()
-      .withBody({
-        token: 'good-token'
-      })
+      .withBody('good-token')
       .build();
   }
   if (credentials.username === 'bad_token') {
-    return new ResultBuilder<SessionToken>()
+    return new ResultBuilder<string>()
       .succeed()
-      .withBody({
-        token: 'bad-token'
-      })
+      .withBody('bad-token')
       .build();
   }
-  return new ResultBuilder<SessionToken>()
+  return new ResultBuilder<string>()
     .fail()
     .withGeneralError(401, 'Credentials do not match')
     .build();

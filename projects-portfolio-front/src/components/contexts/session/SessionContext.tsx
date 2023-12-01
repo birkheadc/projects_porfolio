@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { SessionToken } from '../../../types/session/sessionToken/sessionToken';
+import { Session, SessionStatus, Sessions } from '../../../types/session/session/session';
 
 type Props = {
   children: React.ReactNode
 }
 
 type State = {
-  sessionToken: SessionToken | undefined,
-  setSessionToken: React.Dispatch<React.SetStateAction<SessionToken | undefined>>
+  session: Session,
+  setSession: React.Dispatch<React.SetStateAction<Session>>
 }
 
-export const SessionContext = React.createContext<State>({ sessionToken: undefined, setSessionToken: () => {} });
+
+export const SessionContext = React.createContext<State>({ session: Sessions.DEFAULT, setSession: () => {} });
 export const SessionProvider = ({ children }: Props) => {
-  const [ sessionToken, setSessionToken ] = React.useState<SessionToken | undefined>(undefined);
+  const [ session, setSession ] = React.useState<Session>(Sessions.DEFAULT);
   return (
-    <SessionContext.Provider value={{ sessionToken, setSessionToken }}>
+    <SessionContext.Provider value={{ session, setSession }}>
       { children }
     </SessionContext.Provider>
   );

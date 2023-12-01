@@ -6,13 +6,13 @@ type Props = {
 }
 
 type State = {
-  projects: ProjectSummary[],
-  setProjects: React.Dispatch<React.SetStateAction<ProjectSummary[]>>
+  projects: ProjectSummary[] | undefined,
+  setProjects: React.Dispatch<React.SetStateAction<ProjectSummary[] | undefined>>
 }
 
-export const ProjectsContext = React.createContext<State>({ projects: [], setProjects: () => {} });
+export const ProjectsContext = React.createContext<State>({ projects: undefined, setProjects: () => {} });
 export const ProjectsProvider = ({ children }: Props) => {
-  const [ projects, setProjects ] = React.useState<ProjectSummary[]>([]);
+  const [ projects, setProjects ] = React.useState<ProjectSummary[] | undefined>(undefined);
   return (
     <ProjectsContext.Provider value={{ projects, setProjects }}>
       { children }

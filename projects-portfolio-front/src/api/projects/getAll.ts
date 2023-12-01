@@ -1,8 +1,8 @@
 import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
-export default async function getAll(): Promise<Result<ProjectSummary[]>> {
-
+export default async function(): Promise<Result<ProjectSummary[]>> {
+  await new Promise(r => setTimeout(r, 2000));
   const dummyProjectA: ProjectSummary = {
     id: "8a4e4c84-2613-425c-a013-03b5cfee781d",
     title: "Project 1",

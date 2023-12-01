@@ -12,7 +12,7 @@ import projects from '../../../api/projects';
 
 interface IProjectFormProps {
   project: ProjectSummary | undefined,
-  submit: (projectSummary: ProjectSummary) => void
+  submit: (projectSummary: ProjectSummary) => Promise<void>
 }
 
 /**
@@ -21,6 +21,7 @@ interface IProjectFormProps {
 */
 export default function ProjectForm(props: IProjectFormProps): JSX.Element | null {
 
+  const [ isActive, setActive ] = React.useState<boolean>(true);
   const [ project, setProject ] = React.useState<NewProject>(props.project ? props.project : BLANK_NEW_PROJECT);
 
   const handleChangeString = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,14 +70,16 @@ export default function ProjectForm(props: IProjectFormProps): JSX.Element | nul
     })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setActive(false);
     const p: ProjectSummary = { id: props.project?.id ?? '', ...project }
-    props.submit(p);
+    await props.submit(p);
+    setActive(true);
   }
 
   return (
-    <form className='project-form-wrapper' onSubmit={handleSubmit}>
+    <form className={`project-form-wrapper ${isActive ? '' : 'disabled'}`} onSubmit={handleSubmit}>
       { props.project &&
       <div className="form-row">
         <div className='inline-label-wrapper'>

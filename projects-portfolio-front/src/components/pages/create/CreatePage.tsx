@@ -17,11 +17,11 @@ interface ICreatePageProps {
 */
 export default function CreatePage(props: ICreatePageProps): JSX.Element | null {
 
-  const [ recentResult, setRecentResult ] = React.useState<Result | null>(null);
-  const { sessionToken } = React.useContext(SessionContext);
+  const [ recentResult, setRecentResult ] = React.useState<Result | undefined>(undefined);
+  const { session } = React.useContext(SessionContext);
 
   const handleSubmit = async (projectSummary: ProjectSummary) => {
-    const result = await api.projects.putProject(projectSummary, sessionToken?.token);
+    const result = await api.projects.putProject(projectSummary, session.token);
     setRecentResult(result);
   }
 

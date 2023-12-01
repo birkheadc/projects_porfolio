@@ -55,6 +55,12 @@ button.inline-delete-button:hover, button.inline-delete-button:focus {
   color: var(--clr-accent-dark);
 }
 
+form.disabled {
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.2;
+}
+
 @media (max-width: 740px) {
   div.form-row {
     gap: 1.0em;

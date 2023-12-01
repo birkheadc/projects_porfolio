@@ -22,10 +22,10 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
   const { projects } = React.useContext(ProjectsContext);
   const id = window.location.href.split('/').pop();
   
-  const [ oldProject ] = React.useState<ProjectSummary | undefined>(projects.find(p => p.id === id ));
-  const [ recentResult, setRecentResult ] = React.useState<Result | null>(null);
+  const [ oldProject ] = React.useState<ProjectSummary | undefined>(projects?.find(p => p.id === id ));
+  const [ recentResult, setRecentResult ] = React.useState<Result | undefined>(undefined);
 
-  const { sessionToken } = React.useContext(SessionContext);
+  const { session } = React.useContext(SessionContext);
 
   const nav = useNavigate();
 
@@ -36,7 +36,7 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
   }, [ oldProject ]);
 
   const handleSubmit = async (projectSummary: ProjectSummary) => {
-    const result = await api.projects.putProject(projectSummary, sessionToken?.token);
+    const result = await api.projects.putProject(projectSummary, session.token);
     setRecentResult(result);
   }
 
