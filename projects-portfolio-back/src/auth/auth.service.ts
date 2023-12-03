@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private readonly repository: AuthRepository, private readonly jwtService: JwtService ) { }
 
   async getToken(dto: GetTokenDto): Promise<string> {
-    const hash = this.repository.getPassword();
+    const hash = await this.repository.getPassword();
     if (this.verifyPassword(dto.password, hash)) {
       const payload = { sub: 'admin' };
       const token = await this.jwtService.signAsync(payload);
