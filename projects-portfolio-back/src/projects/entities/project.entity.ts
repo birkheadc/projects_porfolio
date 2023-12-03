@@ -68,6 +68,7 @@ export class Project {
   }
 
   static fromPutProjectDto(dto: PutProjectDto): Project {
+    console.log('Convert DTO: ', dto);
     let project = new Project();
 
     project.id = dto.id === '' ? randomUUID() : dto.id;
@@ -82,6 +83,7 @@ export class Project {
   }
 
   toItemObject(): Record<string, AttributeValue> {
+    console.log("Convert: ", this);
     const bulletPoints: AttributeValue[] = [];
     this.descriptions.bulletPoints.forEach(element => {
       const points: AttributeValue[] = [];
