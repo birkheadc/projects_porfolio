@@ -2,8 +2,35 @@ import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
 export default async function(): Promise<Result<ProjectSummary[]>> {
-  const apiUrl = process.env.API_URL ?? "undefined";
-  console.log("Api url: ", apiUrl);
+  const apiUrl = process.env.API_URL! + '/projects';
+  const controller = new AbortController();
+  setTimeout(() => {
+    controller.abort();
+  }, 2000);
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      signal: controller.signal
+    });
+    if (response.status === 200) {
+      const projects = await response.json();
+      return new ResultBuilder<ProjectSummary[]>()
+        .succeed()
+        .withBody(projects)
+        .build();
+    }
+    return new ResultBuilder<ProjectSummary[]>()
+      .fail()
+      .withGeneralError(response.status)
+      .build();
+  } catch {
+    return new ResultBuilder<ProjectSummary[]>()
+      .fail()
+      .withGeneralError(503)
+      .build();
+  }
+  
+  
   await new Promise(r => setTimeout(r, 2000));
   const dummyProjectA: ProjectSummary = {
     id: "8a4e4c84-2613-425c-a013-03b5cfee781d",

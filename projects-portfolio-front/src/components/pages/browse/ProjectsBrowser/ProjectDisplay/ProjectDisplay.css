@@ -1,6 +1,7 @@
 div.project-display-wrapper {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 div.project-display-header {
@@ -12,12 +13,23 @@ div.project-display-header {
 }
 
 div.project-display-body {
+  width: 100%;
+}
+
+div.project-display-body>img {
+  width: 50%;
+  height:auto;
+  float:left;
+}
+
+ul.project-display-bullet-points {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: start;
+  flex-direction: column;
   gap: 10px;
-  text-align: justify;
+  font-size: 1.2em;
+  list-style-type:square;
+  list-style-position: inside;
+  padding: 0 20px;
 }
 
 div.project-display-wrapper a:hover, div.project-display-wrapper a:focus {
