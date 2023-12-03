@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Body, Param, Delete, Put, HttpException, HttpStatus } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { PutProjectDto } from './dto/put-project.dto';
 
@@ -8,7 +8,6 @@ export class ProjectsController {
 
   @Put()
   createOrUpdate(@Body() dto: PutProjectDto) {
-    console.log('Received dto: ', dto);
     return this.projectsService.createOrUpdate(dto);
   }
 
@@ -23,7 +22,7 @@ export class ProjectsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.projectsService.remove(id);
   }
 }

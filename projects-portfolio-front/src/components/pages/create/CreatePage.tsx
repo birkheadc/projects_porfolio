@@ -6,6 +6,8 @@ import api from '../../../api';
 import { Result } from '../../../types/result/result';
 import ResultDisplay from '../../forms/resultDisplay/ResultDisplay';
 import { SessionContext } from '../../contexts/session/SessionContext';
+import { ProjectsContext } from '../../contexts/projects/ProjectsContext';
+import { useNavigate } from 'react-router-dom';
 
 interface ICreatePageProps {
 
@@ -19,10 +21,16 @@ export default function CreatePage(props: ICreatePageProps): JSX.Element | null 
 
   const [ recentResult, setRecentResult ] = React.useState<Result | undefined>(undefined);
   const { session } = React.useContext(SessionContext);
+  const { refreshProjects } = React.useContext(ProjectsContext);
+  const nav = useNavigate();
 
   const handleSubmit = async (projectSummary: ProjectSummary) => {
     const result = await api.projects.putProject(projectSummary, session.token);
     setRecentResult(result);
+    if (result.wasSuccess) {
+      await refreshProjects();
+      nav('/browse');
+    }
   }
 
   return (

@@ -4,7 +4,7 @@ import { Result, ResultBuilder } from "../../types/result/result";
 export default async function(): Promise<Result<ProjectSummary[]>> {
   const apiUrl = process.env.API_URL! + '/projects';
   const controller = new AbortController();
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
     controller.abort();
   }, 2000);
   try {
@@ -28,6 +28,8 @@ export default async function(): Promise<Result<ProjectSummary[]>> {
       .fail()
       .withGeneralError(503)
       .build();
+  } finally {
+    clearTimeout(timeout);
   }
   
   

@@ -19,7 +19,7 @@ interface IEditPageProps {
 */
 export default function EditPage(props: IEditPageProps): JSX.Element | null {
 
-  const { projects } = React.useContext(ProjectsContext);
+  const { projects, refreshProjects } = React.useContext(ProjectsContext);
   const id = window.location.href.split('/').pop();
   
   const [ oldProject ] = React.useState<ProjectSummary | undefined>(projects?.find(p => p.id === id ));
@@ -38,6 +38,10 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
   const handleSubmit = async (projectSummary: ProjectSummary) => {
     const result = await api.projects.putProject(projectSummary, session.token);
     setRecentResult(result);
+    if (result.wasSuccess) {
+      await refreshProjects();
+      nav('/browse');
+    }
   }
 
   return (

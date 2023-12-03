@@ -17,11 +17,10 @@ interface IRootProps {
 */
 export default function Root(props: IRootProps): JSX.Element | null {
 
-  const { projects, setProjects } = React.useContext(ProjectsContext);
+  const { refreshProjects } = React.useContext(ProjectsContext);
   const { session, setSession } = React.useContext(SessionContext);
 
   const isReady = (
-    projects !== undefined &&
     session.status !== SessionStatus.CHECKING
   );
 
@@ -43,12 +42,8 @@ export default function Root(props: IRootProps): JSX.Element | null {
   }, []);
 
   React.useEffect(() => {
-    (async function fetchProjects() {
-      const result = await api.projects.getAll();
-      if (result.wasSuccess === false || result.body == null) {
-        return;
-      }
-      setProjects(result.body);
+    (async function refreshProjectsOnMount() {
+      await refreshProjects();
     })();
   }, []);
 

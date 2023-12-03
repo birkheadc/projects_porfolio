@@ -1,4 +1,4 @@
-import { AttributeValue, DynamoDBClient, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { AttributeValue, DeleteItemCommand, DynamoDBClient, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { Injectable } from "@nestjs/common";
 import { Project } from "./entities/project.entity";
 
@@ -45,5 +45,21 @@ export class ProjectsRepository {
       console.log('Error while performing put: ', error);
       return false;
     }
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const command = new DeleteItemCommand({
+      TableName: this.tableName,
+      Key: {
+        id: {
+          S: id
+        }
+      },
+      ReturnConsumedCapacity: 'TOTAL',
+      ReturnValues: 'ALL_OLD'
+    });
+
+    const result = await this.client.send(command);
+    return (result.Attributes != null);
   }
 }

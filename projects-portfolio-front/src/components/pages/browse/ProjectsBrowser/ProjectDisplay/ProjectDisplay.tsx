@@ -37,7 +37,7 @@ export default function ProjectDisplay(props: IProjectDisplayProps): JSX.Element
         { session.status === SessionStatus.LOGGED_IN && <button className='project-display-delete-button' onClick={confirmDelete} type='button'>Delete</button>}
       </div>
       <div className='project-display-body'>
-        <img width={400} height={300} src={`https://picsum.photos/seed/${project.id}/400/300`}></img>
+        <img className='' width={400} height={300} src={`https://picsum.photos/seed/${project.id}/400/300`}></img>
         <ul className='project-display-bullet-points'>
           {project.descriptions.bulletPoints.find(bp => bp.language === language)?.content.map(
             point =>

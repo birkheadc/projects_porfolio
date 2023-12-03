@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProjectsRepository } from './projects.repository';
 import { PutProjectDto } from './dto/put-project.dto';
 import { Project } from './entities/project.entity';
@@ -23,7 +23,9 @@ export class ProjectsService {
     return `This action returns a #${id} project`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`;
+  async remove(id: string): Promise<void> {
+    const wasSuccess: boolean = await this.repository.delete(id);
+    if (wasSuccess) return;
+    throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
   }
 }

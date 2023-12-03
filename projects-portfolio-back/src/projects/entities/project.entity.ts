@@ -18,7 +18,6 @@ export class Project {
   technologies: string[];
 
   static fromDynamoDBObject(data: any): Project {
-    console.log("Converting to Project: ", data);
     const project = new Project();
 
     project.id = data.id.S;
@@ -68,7 +67,6 @@ export class Project {
   }
 
   static fromPutProjectDto(dto: PutProjectDto): Project {
-    console.log('Convert DTO: ', dto);
     let project = new Project();
 
     project.id = dto.id === '' ? randomUUID() : dto.id;
@@ -83,7 +81,6 @@ export class Project {
   }
 
   toItemObject(): Record<string, AttributeValue> {
-    console.log("Convert: ", this);
     const bulletPoints: AttributeValue[] = [];
     this.descriptions.bulletPoints.forEach(element => {
       const points: AttributeValue[] = [];
@@ -100,6 +97,7 @@ export class Project {
           }
         }
       }
+      bulletPoints.push(bulletPoint);
     });
     const shortDescriptions: AttributeValue[] = [];
     this.descriptions.shortDescriptions.forEach(element => {

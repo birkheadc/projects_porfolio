@@ -19,6 +19,7 @@ div.project-display-more-info-wrapper {
 
 p.project-display-long-description {
   font-size: 1.3em;
+  white-space: pre-line;
 }
 
 div.project-display-technologies {
