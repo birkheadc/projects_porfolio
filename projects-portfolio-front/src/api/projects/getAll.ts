@@ -7,6 +7,7 @@ export default async function(): Promise<Result<ProjectSummary[]>> {
   const timeout = setTimeout(() => {
     controller.abort();
   }, 2000);
+  console.log("Get all projects from: ", apiUrl);
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',

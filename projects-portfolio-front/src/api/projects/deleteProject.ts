@@ -1,7 +1,6 @@
 import { Result, ResultBuilder } from "../../types/result/result";
 
 export default async function(id: string, sessionToken: string | null | undefined): Promise<Result> {
-  console.log('Delete project: ', id);
   const apiUrl = process.env.API_URL! + `/projects/${id}`;
   const controller = new AbortController();
   const timeout = setTimeout(() => {

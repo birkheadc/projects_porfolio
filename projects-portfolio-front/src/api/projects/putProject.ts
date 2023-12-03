@@ -2,7 +2,6 @@ import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
 export default async function(projectSummary: ProjectSummary, sessionToken: string | null | undefined): Promise<Result> {
-  console.log('PUT PROJECT: ', projectSummary);
   const apiUrl = process.env.API_URL! + '/projects';
   const controller = new AbortController();
   const timeout = setTimeout(() => {

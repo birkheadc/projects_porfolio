@@ -2,7 +2,6 @@ import { Result, ResultBuilder } from "../../types/result/result";
 import { LoginCredentials } from "../../types/session/loginCredentials/loginCredentials";
 
 export default async function(credentials: LoginCredentials): Promise<Result<string>> {
-  console.log('LOGIN: ', credentials);
   await new Promise(r => setTimeout(r, 2000));
   // Dummy logic, api not yet created
   if (credentials.username === 'good_token') {
