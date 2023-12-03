@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProjectsRepository } from './projects.repository';
+import { PutProjectDto } from './dto/put-project.dto';
+import { Project } from './entities/project.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -9,20 +9,18 @@ export class ProjectsService {
     
   }
 
-  create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+  async createOrUpdate(dto: PutProjectDto): Promise<boolean> {
+    const project: Project = Project.fromPutProjectDto(dto);
+    const wasSuccess = await this.repository.put(project);
+    return wasSuccess;
   }
 
-  findAll() {
-    return this.repository.getAll();
+  async findAll(): Promise<Project[]> {
+    return await this.repository.getAll();
   }
 
   findOne(id: number) {
     return `This action returns a #${id} project`;
-  }
-
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
   }
 
   remove(id: number) {

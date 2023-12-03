@@ -1,5 +1,8 @@
+import { randomUUID } from "crypto";
+import { PutProjectDto } from "../dto/put-project.dto";
 import { BulletPoint } from "./bulletPoint";
 import { ProjectDescription } from "./projectDescription";
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
 
 export class Project {
   id: string;
@@ -62,5 +65,106 @@ export class Project {
     });
 
     return project;
+  }
+
+  static fromPutProjectDto(dto: PutProjectDto): Project {
+    let project = new Project();
+
+    project.id = dto.id === '' ? randomUUID() : dto.id;
+    project.title = dto.title;
+    project.site = dto.site;
+    project.source = dto.source;
+    project.favoriteLevel = dto.favoriteLevel;
+    project.descriptions = dto.descriptions;
+    project.technologies = dto.technologies;
+
+    return project;
+  }
+
+  toItemObject(): Record<string, AttributeValue> {
+    const bulletPoints: AttributeValue[] = [];
+    this.descriptions.bulletPoints.forEach(element => {
+      const points: AttributeValue[] = [];
+      element.content.forEach(point => {
+        points.push({ S: point});
+      });
+      const bulletPoint: AttributeValue = {
+        M: {
+          content: {
+            L: points
+          },
+          language: {
+            S: element.language
+          }
+        }
+      }
+    });
+    const shortDescriptions: AttributeValue[] = [];
+    this.descriptions.shortDescriptions.forEach(element => {
+      shortDescriptions.push({
+        M: {
+          content: {
+            S: element.content
+          },
+          language: {
+            S: element.language
+          }
+        }
+      })
+    });
+    const longDescriptions: AttributeValue[] = [];
+    this.descriptions.longDescriptions.forEach(element => {
+      longDescriptions.push({
+        M: {
+          content: {
+            S: element.content
+          },
+          language: {
+            S: element.language
+          }
+        }
+      })
+    });
+    const technologies: AttributeValue[] = [];
+    this.technologies.forEach(element => {
+      technologies.push({
+        S: element
+      })
+    });
+
+    const itemObject: Record<string, AttributeValue> = {
+      id: {
+        S: this.id
+      },
+      title: {
+        S: this.title
+      },
+      site: {
+        S: this.site
+      },
+      source: {
+        S: this.source
+      },
+      favoriteLevel: {
+        N: this.favoriteLevel.toString()
+      },
+      descriptions: {
+        M: {
+          bulletPoints: {
+            L: bulletPoints
+          },
+          shortDescriptions: {
+            L: shortDescriptions
+          },
+          longDescriptions: {
+            L: longDescriptions
+          }
+        }
+      },
+      technologies: {
+        L: technologies
+      }
+    }
+    return itemObject;
   }
 }

@@ -1,4 +1,4 @@
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { AttributeValue, DynamoDBClient, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { Injectable } from "@nestjs/common";
 import { Project } from "./entities/project.entity";
 
@@ -10,20 +10,40 @@ export class ProjectsRepository {
   }
 
   async getAll(): Promise<Project[]> {
-    const result: Project[] = [];
+    const projects: Project[] = [];
 
     const command = new ScanCommand({
       TableName: this.tableName
     });
+    try {
+      const response = await this.client.send(command);
 
-    const response = await this.client.send(command);
-
-    if (response.Items) {
-      response.Items.forEach(element => {
-        result.push(Project.fromDynamoDBObject(element));
-      });
+      if (response.Items) {
+        response.Items.forEach(element => {
+          projects.push(Project.fromDynamoDBObject(element));
+        });
+      }
+    } catch (error) {
+      console.log('Error while performing getAll: ', error);
     }
 
-    return result;
+    return projects;
+  }
+
+  async put(project: Project): Promise<boolean> {
+    const itemObject: Record<string, AttributeValue> = project.toItemObject();
+
+    const command = new PutItemCommand({
+      TableName: this.tableName,
+      Item: itemObject
+    })
+
+    try {
+      await this.client.send(command);
+      return true;
+    } catch (error) {
+      console.log('Error while performing put: ', error);
+      return false;
+    }
   }
 }
