@@ -8,7 +8,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   plugins: [
     new Dotenv({
-      path: './env/.env.dev',
+      path: './env/.env.prod',
       systemvars: true,
       defaults: './env/.env.defaults'
     })
