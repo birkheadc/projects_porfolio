@@ -1,31 +1,30 @@
+import helpers from "../../helpers";
 import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
 export default async function(projectSummary: ProjectSummary, sessionToken: string | null | undefined): Promise<Result> {
   const apiUrl = process.env.API_URL! + '/projects';
-  const controller = new AbortController();
-  const timeout = setTimeout(() => {
-    controller.abort();
-  }, 2000);
+  const [ timeout, signal ] = helpers.api.createAbortController();
   try {
     const response = await fetch(apiUrl, {
       method: 'PUT',
       body: JSON.stringify(projectSummary),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
       },
-      signal: controller.signal
+      signal: signal
     });
-    if (response.status === 200) {
-      const projects = await response.json();
+    if (!response.ok) {
       return new ResultBuilder()
-        .succeed()
+        .fail()
+        .withGeneralError(response.status)
         .build();
     }
+    const projects = await response.json();
     return new ResultBuilder()
-      .fail()
-      .withGeneralError(response.status)
-      .build();
+      .succeed()
+      .build();    
   } catch {
     return new ResultBuilder()
       .fail()

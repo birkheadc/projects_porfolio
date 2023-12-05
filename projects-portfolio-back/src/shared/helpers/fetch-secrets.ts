@@ -1,10 +1,7 @@
 import { GetSecretValueCommand, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config"
 
 export const fetchSecretKey = async () => {
-  const configService = new ConfigService();
-
   const client = new SecretsManagerClient({
     region: 'ap-southeast-2'
   });

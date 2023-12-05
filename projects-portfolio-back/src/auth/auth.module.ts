@@ -5,6 +5,7 @@ import { AuthRepository } from './auth.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { fetchSecretKey } from '../shared/helpers/fetch-secrets';
+import { AuthGuard } from './auth.guard';
 
 // Todo: Get the secret from aws
 // The current secret is just random and is not real so leave me alone
@@ -26,6 +27,7 @@ import { fetchSecretKey } from '../shared/helpers/fetch-secrets';
         }
       }
     })
-  ]
+  ],
+  exports: [JwtModule]
 })
 export class AuthModule {}

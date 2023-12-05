@@ -1,6 +1,7 @@
-import { Controller, Post, Headers } from '@nestjs/common';
+import { Controller, Post, Headers, Get, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetTokenDto } from './dto/get-token.dto';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -11,5 +12,11 @@ export class AuthController {
     const dto: GetTokenDto = GetTokenDto.fromBasicAuth(authorization);
     const jwt: string = await this.service.getToken(dto);
     return jwt;
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  async verifyToken() {
+    return;
   }
 }

@@ -1,28 +1,25 @@
+import helpers from "../../helpers";
 import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
 export default async function(): Promise<Result<ProjectSummary[]>> {
   const apiUrl = process.env.API_URL! + '/projects';
-  const controller = new AbortController();
-  const timeout = setTimeout(() => {
-    controller.abort();
-  }, 2000);
-  console.log("Get all projects from: ", apiUrl);
+  const [ timeout, signal ] = helpers.api.createAbortController();
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',
-      signal: controller.signal
+      signal: signal
     });
-    if (response.status === 200) {
-      const projects = await response.json();
+    if (!response.ok) {
       return new ResultBuilder<ProjectSummary[]>()
-        .succeed()
-        .withBody(projects)
+        .fail()
+        .withGeneralError(response.status)
         .build();
     }
+    const projects = await response.json();
     return new ResultBuilder<ProjectSummary[]>()
-      .fail()
-      .withGeneralError(response.status)
+      .succeed()
+      .withBody(projects)
       .build();
   } catch {
     return new ResultBuilder<ProjectSummary[]>()

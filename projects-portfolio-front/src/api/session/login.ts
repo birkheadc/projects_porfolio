@@ -1,23 +1,41 @@
+import helpers from "../../helpers";
 import { Result, ResultBuilder } from "../../types/result/result";
 import { LoginCredentials } from "../../types/session/loginCredentials/loginCredentials";
 
 export default async function(credentials: LoginCredentials): Promise<Result<string>> {
-  await new Promise(r => setTimeout(r, 2000));
-  // Dummy logic, api not yet created
-  if (credentials.username === 'good_token') {
+  const apiUrl = process.env.API_URL! + '/auth';
+  const [ timeout, signal ] = helpers.api.createAbortController();
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': encodeCredentials(credentials)
+      },
+      signal: signal
+    });
+    console.log(response.status);
+    if (!response.ok) {
+      return new ResultBuilder<string>()
+        .fail()
+        .withGeneralError(response.status)
+        .build();
+    }
+    const data = await response.text();
     return new ResultBuilder<string>()
       .succeed()
-      .withBody('good-token')
+      .withBody(data)
       .build();
-  }
-  if (credentials.username === 'bad_token') {
+  } catch {
     return new ResultBuilder<string>()
-      .succeed()
-      .withBody('bad-token')
+      .fail()
+      .withGeneralError(503)
       .build();
+  } finally {
+    clearTimeout(timeout);
   }
-  return new ResultBuilder<string>()
-    .fail()
-    .withGeneralError(401, 'Credentials do not match')
-    .build();
+}
+
+function encodeCredentials(credentials: LoginCredentials): string {
+  const code = window.btoa(`${credentials.username}:${credentials.password}`);
+  return `Basic ${code}`;
 }
