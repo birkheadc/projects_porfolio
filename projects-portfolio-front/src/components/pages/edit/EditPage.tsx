@@ -8,6 +8,7 @@ import { Result } from '../../../types/result/result';
 import { ProjectsContext } from '../../contexts/projects/ProjectsContext';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../contexts/session/SessionContext';
+import { NewProject } from '../../../types/project/newProject';
 
 interface IEditPageProps {
 
@@ -35,8 +36,8 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
     }
   }, [ oldProject ]);
 
-  const handleSubmit = async (projectSummary: ProjectSummary) => {
-    const result = await api.projects.putProject(projectSummary, session.token);
+  const handleSubmit = async (project: NewProject) => {
+    const result = await api.projects.putProject(project, session.token);
     setRecentResult(result);
     if (result.wasSuccess) {
       await refreshProjects();

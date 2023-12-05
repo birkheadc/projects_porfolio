@@ -2,6 +2,7 @@ import { BulletPoint } from "./bulletPoint"
 import { ProjectDescription } from "./projectDescription"
 
 export type NewProject = {
+  id: string,
   title: string,
   site: string,
   source: string,
@@ -12,10 +13,12 @@ export type NewProject = {
     longDescriptions: ProjectDescription[]
   },
   technologies: string[],
-  [key: string]: string | number | {}
+  images: FileList | null,
+  [key: string]: string | number | {} | null
 }
 
 export const BLANK_NEW_PROJECT: NewProject = {
+  id: "",
   title: "",
   site: "",
   source: "",
@@ -25,5 +28,6 @@ export const BLANK_NEW_PROJECT: NewProject = {
     shortDescriptions: [],
     longDescriptions: []
   },
-  technologies: []
+  technologies: [],
+  images: null
 }

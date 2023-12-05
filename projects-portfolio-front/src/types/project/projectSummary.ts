@@ -12,5 +12,6 @@ export type ProjectSummary = {
     shortDescriptions: ProjectDescription[],
     longDescriptions: ProjectDescription[]
   },
-  technologies: string[]
+  technologies: string[],
+  imageUrls: string[]
 }

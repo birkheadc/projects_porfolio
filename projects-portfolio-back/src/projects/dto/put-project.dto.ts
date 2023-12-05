@@ -13,4 +13,11 @@ export class PutProjectDto {
     longDescriptions: ProjectDescription[]
   };
   technologies: string[];
+
+  static fromFormData(formData: { [key: string]: string | undefined}): PutProjectDto {
+    let dto = new PutProjectDto();
+    const json = JSON.parse(formData.json ?? '');
+    dto = {...json};
+    return dto;
+  }
 }

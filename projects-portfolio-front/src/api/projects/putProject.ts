@@ -1,16 +1,17 @@
 import helpers from "../../helpers";
+import { NewProject } from "../../types/project/newProject";
 import { ProjectSummary } from "../../types/project/projectSummary";
 import { Result, ResultBuilder } from "../../types/result/result";
 
-export default async function(projectSummary: ProjectSummary, sessionToken: string | null | undefined): Promise<Result> {
+export default async function(newProject: NewProject, sessionToken: string | null | undefined): Promise<Result> {
   const apiUrl = process.env.API_URL! + '/projects';
   const [ timeout, signal ] = helpers.api.createAbortController();
   try {
     const response = await fetch(apiUrl, {
       method: 'PUT',
-      body: JSON.stringify(projectSummary),
+      body: newProjectToFormData(newProject),
       headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${sessionToken}`
       },
       signal: signal
@@ -33,38 +34,20 @@ export default async function(projectSummary: ProjectSummary, sessionToken: stri
   } finally {
     clearTimeout(timeout);
   }
-  // await new Promise(r => setTimeout(r, 2000));
-  // if (sessionToken == null || sessionToken === 'bad-token') {
-  //   return new ResultBuilder()
-  //     .fail()
-  //     .withGeneralError(401)
-  //     .build();
-  // }
-
-  // return new ResultBuilder()
-  //   .succeed()
-  //   .build();
 }
 
-const dummyProjectA: ProjectSummary = {
-  id: "",
-  title: "Project 1",
-  site: "www.project1.com",
-  source: "git.project1.com",
-  favoriteLevel: 50,
-  descriptions: {
-    bulletPoints: [{ 
-      language: 'en',
-      content: ['This is a bullet point', 'This is another bullet point', 'And one last point']
-    }],
-    shortDescriptions: [{
-      language: 'en',
-      content: 'This is a short description. I think it needs a few more sentences though. Just so I can test the layout.'
-    }],
-    longDescriptions: [{
-      language: 'en',
-      content: 'This is a longer description. I will copy and paste it a few times to make sure of it. This is a longer description. I will copy and paste it a few times to make sure of it. This is a longer description. I will copy and paste it a few times to make sure of it. This is a longer description. I will copy and paste it a few times to make sure of it.'
-    }]
-  },
-  technologies: [ 'js', 'ts']
+function newProjectToFormData(project: NewProject): FormData {
+  const formData = new FormData();
+
+  const { images, ...rest } = project;
+  formData.append('json', JSON.stringify(rest));
+
+  if (project.images != null) {
+    const _images = Array.from(project.images);
+    _images.forEach(image => {
+      formData.append('images', image);
+    });
+  }
+
+  return formData;
 }

@@ -16,6 +16,7 @@ export class Project {
     longDescriptions: ProjectDescription[]
   };
   technologies: string[];
+  imageUrls: string[];
 
   static fromDynamoDBObject(data: any): Project {
     const project = new Project();
@@ -31,6 +32,7 @@ export class Project {
       longDescriptions: []
     };
     project.technologies = [];
+    project.imageUrls = [];
 
     data.descriptions.M.bulletPoints.L.forEach((element: any) => {
       const bullet: BulletPoint = {
@@ -63,6 +65,10 @@ export class Project {
       project.technologies.push(element.S);
     });
 
+    data.imageUrls.L.forEach((element: any) => {
+      project.imageUrls.push(element.S);
+    })
+
     return project;
   }
 
@@ -76,6 +82,7 @@ export class Project {
     project.favoriteLevel = dto.favoriteLevel;
     project.descriptions = dto.descriptions;
     project.technologies = dto.technologies;
+    project.imageUrls = [];
 
     return project;
   }
@@ -110,7 +117,7 @@ export class Project {
             S: element.language
           }
         }
-      })
+      });
     });
     const longDescriptions: AttributeValue[] = [];
     this.descriptions.longDescriptions.forEach(element => {
@@ -123,13 +130,20 @@ export class Project {
             S: element.language
           }
         }
-      })
+      });
     });
     const technologies: AttributeValue[] = [];
     this.technologies.forEach(element => {
       technologies.push({
         S: element
-      })
+      });
+    });
+
+    const imageUrls: AttributeValue[] = [];
+    this.imageUrls.forEach(element => {
+      imageUrls.push({
+        S: element
+      });
     });
 
     const itemObject: Record<string, AttributeValue> = {
@@ -163,6 +177,9 @@ export class Project {
       },
       technologies: {
         L: technologies
+      },
+      imageUrls: {
+        L: imageUrls
       }
     }
     return itemObject;

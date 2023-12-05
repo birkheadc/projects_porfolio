@@ -8,11 +8,10 @@ import { BLANK_NEW_PROJECT, NewProject } from '../../../types/project/newProject
 import { BulletPoint } from '../../../types/project/bulletPoint';
 import { ProjectDescriptionLength } from '../../../types/project/projectDescriptionLength';
 import { ProjectDescription } from '../../../types/project/projectDescription';
-import projects from '../../../api/projects';
 
 interface IProjectFormProps {
   project: ProjectSummary | undefined,
-  submit: (projectSummary: ProjectSummary) => Promise<void>
+  submit: (project: NewProject) => Promise<void>
 }
 
 /**
@@ -22,7 +21,7 @@ interface IProjectFormProps {
 export default function ProjectForm(props: IProjectFormProps): JSX.Element | null {
 
   const [ isActive, setActive ] = React.useState<boolean>(true);
-  const [ project, setProject ] = React.useState<NewProject>(props.project ? props.project : BLANK_NEW_PROJECT);
+  const [ project, setProject ] = React.useState<NewProject>(props.project ? { ...props.project, images: null } : BLANK_NEW_PROJECT);
 
   const handleChangeString = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -70,11 +69,18 @@ export default function ProjectForm(props: IProjectFormProps): JSX.Element | nul
     })
   }
 
+  const handleChangeFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProject(p => {
+      const newValue = {...p};
+      newValue.images = event.target.files;
+      return newValue;
+    })
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setActive(false);
-    const p: ProjectSummary = { id: props.project?.id ?? '', ...project }
-    await props.submit(p);
+    await props.submit(project);
     setActive(true);
   }
 
@@ -112,6 +118,10 @@ export default function ProjectForm(props: IProjectFormProps): JSX.Element | nul
       <DescriptionSection descriptions={project.descriptions.shortDescriptions} length={ProjectDescriptionLength.SHORT} update={handleUpdateDescriptions} />
       <DescriptionSection descriptions={project.descriptions.longDescriptions} length={ProjectDescriptionLength.LONG} update={handleUpdateDescriptions} />
       <TechnologiesSection technologies={project.technologies} update={handleUpdateTechnologies} />
+      <div className='inline-label-wrapper'>
+        <label htmlFor='images'>Images</label>  
+        <input type='file' id='images' name='images' multiple={true} accept='image/*' onChange={handleChangeFiles}></input>
+      </div>
       <button type='submit' className='shadow center'>Submit</button>
     </form>
   );

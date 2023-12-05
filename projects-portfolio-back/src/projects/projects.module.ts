@@ -4,6 +4,7 @@ import { ProjectsController } from './projects.controller';
 import { ProjectsRepository } from './projects.repository';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { AuthModule } from '../auth/auth.module';
+import { UploadModule } from '../upload/upload.module';
 
 @Module({
   controllers: [ProjectsController],
@@ -13,6 +14,6 @@ import { AuthModule } from '../auth/auth.module';
       return new DynamoDBClient({ region: 'ap-southeast-2' });
     }
   }],
-  imports: [AuthModule]
+  imports: [AuthModule, UploadModule]
 })
 export class ProjectsModule {}

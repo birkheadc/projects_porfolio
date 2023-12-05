@@ -13,7 +13,6 @@ export default async function(credentials: LoginCredentials): Promise<Result<str
       },
       signal: signal
     });
-    console.log(response.status);
     if (!response.ok) {
       return new ResultBuilder<string>()
         .fail()

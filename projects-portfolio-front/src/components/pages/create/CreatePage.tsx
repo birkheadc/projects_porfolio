@@ -8,6 +8,7 @@ import ResultDisplay from '../../forms/resultDisplay/ResultDisplay';
 import { SessionContext } from '../../contexts/session/SessionContext';
 import { ProjectsContext } from '../../contexts/projects/ProjectsContext';
 import { useNavigate } from 'react-router-dom';
+import { NewProject } from '../../../types/project/newProject';
 
 interface ICreatePageProps {
 
@@ -24,8 +25,8 @@ export default function CreatePage(props: ICreatePageProps): JSX.Element | null 
   const { refreshProjects } = React.useContext(ProjectsContext);
   const nav = useNavigate();
 
-  const handleSubmit = async (projectSummary: ProjectSummary) => {
-    const result = await api.projects.putProject(projectSummary, session.token);
+  const handleSubmit = async (project: NewProject) => {
+    const result = await api.projects.putProject(project, session.token);
     setRecentResult(result);
     if (result.wasSuccess) {
       await refreshProjects();
