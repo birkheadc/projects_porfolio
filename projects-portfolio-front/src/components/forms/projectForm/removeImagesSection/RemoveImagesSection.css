@@ -1,0 +1,23 @@
+div.remove-images-section-wrapper {
+  border: var(--border-pri);
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+}
+
+div.remove-images-section-wrapper img {
+  height: auto;
+  max-height: 300px;
+  max-width: 50%;
+}
+
+div.remove-images-section-sub-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: end;
+  gap: 20px;
+
+  padding: 30px;
+}

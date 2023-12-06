@@ -8,6 +8,8 @@ import { BLANK_NEW_PROJECT, NewProject } from '../../../types/project/newProject
 import { BulletPoint } from '../../../types/project/bulletPoint';
 import { ProjectDescriptionLength } from '../../../types/project/projectDescriptionLength';
 import { ProjectDescription } from '../../../types/project/projectDescription';
+import RemoveImagesSection from './removeImagesSection/RemoveImagesSection';
+import { OldImageStatus } from '../../../types/project/oldImageStatus';
 
 interface IProjectFormProps {
   project: ProjectSummary | undefined,
@@ -21,7 +23,12 @@ interface IProjectFormProps {
 export default function ProjectForm(props: IProjectFormProps): JSX.Element | null {
 
   const [ isActive, setActive ] = React.useState<boolean>(true);
-  const [ project, setProject ] = React.useState<NewProject>(props.project ? { ...props.project, images: null } : BLANK_NEW_PROJECT);
+  const [ project, setProject ] = React.useState<NewProject>(BLANK_NEW_PROJECT);
+
+  React.useEffect(function updateNewProjectWhenOldProjectChanges() {
+    if (props.project == null) return;
+    setProject({ ...props.project, images: null, oldImages: [] });
+  }, [ props.project ]);
 
   const handleChangeString = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
@@ -77,6 +84,10 @@ export default function ProjectForm(props: IProjectFormProps): JSX.Element | nul
     })
   }
 
+  const handleUpdateImagesToRemove = (oldImages: OldImageStatus[]) => {
+
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setActive(false);
@@ -118,8 +129,9 @@ export default function ProjectForm(props: IProjectFormProps): JSX.Element | nul
       <DescriptionSection descriptions={project.descriptions.shortDescriptions} length={ProjectDescriptionLength.SHORT} update={handleUpdateDescriptions} />
       <DescriptionSection descriptions={project.descriptions.longDescriptions} length={ProjectDescriptionLength.LONG} update={handleUpdateDescriptions} />
       <TechnologiesSection technologies={project.technologies} update={handleUpdateTechnologies} />
+      <RemoveImagesSection images={props.project?.imageUrls} update={handleUpdateImagesToRemove} />
       <div className='inline-label-wrapper'>
-        <label htmlFor='images'>Images</label>  
+        <label htmlFor='images'>Upload Images</label>  
         <input type='file' id='images' name='images' multiple={true} accept='image/*' onChange={handleChangeFiles}></input>
       </div>
       <button type='submit' className='shadow center'>Submit</button>

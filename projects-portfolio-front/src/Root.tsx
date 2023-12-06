@@ -20,10 +20,6 @@ export default function Root(props: IRootProps): JSX.Element | null {
   const { refreshProjects } = React.useContext(ProjectsContext);
   const { session, setSession } = React.useContext(SessionContext);
 
-  const isReady = (
-    session.status !== SessionStatus.CHECKING
-  );
-
   React.useEffect(function checkStorageForSessionTokenOnMount() {
     const token: string | null = helpers.localStorage.token.retrieve();
     if (token == null) {
@@ -47,7 +43,7 @@ export default function Root(props: IRootProps): JSX.Element | null {
     })();
   }, []);
 
-  if (!isReady) return (
+  if (session.status === SessionStatus.CHECKING) return (
     <h1>Loading</h1>
   );
 

@@ -7,15 +7,14 @@ import { UploadService } from '../upload/upload.service';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService, private readonly uploadService: UploadService) {}
+  constructor(private readonly projectsService: ProjectsService) {}
 
   @Put()
   @UseGuards(AuthGuard)
   @UseInterceptors(FilesInterceptor('images'))
   async createOrUpdate(@UploadedFiles() files: Express.Multer.File[], @Body() formData: any) {
     const dto = PutProjectDto.fromFormData(formData);
-    await this.uploadService.uploadImages(files);
-    // await this.projectsService.createOrUpdate(dto);
+    await this.projectsService.createOrUpdate(dto, files);
   }
 
   @Get()

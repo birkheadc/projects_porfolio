@@ -61,6 +61,17 @@ form.disabled {
   opacity: 0.2;
 }
 
+input.checkbox {
+  border: none;
+  width: 25px;
+  height: 25px;
+  border: var(--border-pri);
+}
+
+input.checkbox:checked {
+  background-color: var(--clr-accent-dark);
+}
+
 @media (max-width: 740px) {
   div.form-row {
     gap: 1.0em;

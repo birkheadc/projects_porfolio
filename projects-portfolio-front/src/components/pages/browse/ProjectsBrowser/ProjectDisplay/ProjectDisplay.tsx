@@ -17,29 +17,29 @@ interface IProjectDisplayProps {
 */
 export default function ProjectDisplay(props: IProjectDisplayProps): JSX.Element | null {
 
+  console.log()
+
   const language = 'en';
   const { session } = React.useContext(SessionContext);
 
-  const project = props.project;
-
   const confirmDelete = () => {
-    const confirm = window.confirm(`Are you sure you want to delete ${project.title}?`);
+    const confirm = window.confirm(`Are you sure you want to delete ${props.project.title}?`);
     if (confirm) {
-      props.delete(project.id);
+      props.delete(props.project.id);
     }
   }
 
   return (
     <div className='project-display-wrapper'>
       <div className='project-display-header'>
-        <h2>{project.title}</h2>
-        { session.status === SessionStatus.LOGGED_IN && <Link to={`/edit/${project.id}`}>Edit</Link>}
+        <h2>{props.project.title}</h2>
+        { session.status === SessionStatus.LOGGED_IN && <Link to={`/edit/${props.project.id}`}>Edit</Link>}
         { session.status === SessionStatus.LOGGED_IN && <button className='project-display-delete-button' onClick={confirmDelete} type='button'>Delete</button>}
       </div>
       <div className='project-display-body'>
-        <img className='' width={400} height={300} src={`https://picsum.photos/seed/${project.id}/400/300`}></img>
+        <img className='' width={400} height={300} src={props.project.imageUrls[0] ?? `https://picsum.photos/seed/${props.project.id}/400/300`}></img>
         <ul className='project-display-bullet-points'>
-          {project.descriptions.bulletPoints.find(bp => bp.language === language)?.content.map(
+          {props.project.descriptions.bulletPoints.find(bp => bp.language === language)?.content.map(
             point =>
             <li key={`project-display-bullet-point-${point}`}>
               {point}
@@ -48,7 +48,7 @@ export default function ProjectDisplay(props: IProjectDisplayProps): JSX.Element
         </ul>
       </div>
       <div className='project-display-more-info'>
-        <ProjectDisplayMoreInfo project={project} />
+        <ProjectDisplayMoreInfo project={props.project} />
       </div>
     </div>
   );

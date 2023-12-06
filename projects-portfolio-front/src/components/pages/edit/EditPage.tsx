@@ -9,6 +9,7 @@ import { ProjectsContext } from '../../contexts/projects/ProjectsContext';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../../contexts/session/SessionContext';
 import { NewProject } from '../../../types/project/newProject';
+import { SessionStatus } from '../../../types/session/session/session';
 
 interface IEditPageProps {
 
@@ -23,18 +24,18 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
   const { projects, refreshProjects } = React.useContext(ProjectsContext);
   const id = window.location.href.split('/').pop();
   
-  const [ oldProject ] = React.useState<ProjectSummary | undefined>(projects?.find(p => p.id === id ));
+  const [ oldProject, setOldProject ] = React.useState<ProjectSummary | undefined>(undefined);
   const [ recentResult, setRecentResult ] = React.useState<Result | undefined>(undefined);
 
   const { session } = React.useContext(SessionContext);
 
   const nav = useNavigate();
 
-  React.useEffect(function returnHomeIfProjectIdNotFound() {
-    if (oldProject == null) {
-      nav('/');
-    }
-  }, [ oldProject ]);
+  // React.useEffect(function returnHomeIfProjectIdNotFound() {
+  //   if (projects !== undefined && session.status !== SessionStatus.CHECKING && oldProject == null) {
+  //     nav('/');
+  //   }
+  // }, [ oldProject, session, projects ]);
 
   const handleSubmit = async (project: NewProject) => {
     const result = await api.projects.putProject(project, session.token);
@@ -44,6 +45,14 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
       nav('/browse');
     }
   }
+
+  React.useEffect(function setOldProjectOnMount() {
+    console.log("Projects: ", projects);
+    if (projects == null) return;
+    const project = projects.find(p => p.id === id);
+    console.log("Project: ", project);
+    setOldProject(project);
+  }, [ projects ])
 
   return (
     <main className='edit-page-wrapper'>
