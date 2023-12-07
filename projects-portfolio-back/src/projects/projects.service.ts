@@ -10,25 +10,23 @@ export class ProjectsService {
     
   }
 
-  async createOrUpdate(dto: PutProjectDto, files: Express.Multer.File[]): Promise<boolean> {
+  async createOrUpdate(dto: PutProjectDto, files: Express.Multer.File[]): Promise<void> {
     const project: Project = Project.fromPutProjectDto(dto);
     const fileNames: string[] = await this.uploadService.uploadImages(project.id, files);
     project.imageUrls = fileNames;
-    const wasSuccess = await this.repository.put(project);
-    return wasSuccess;
+    await this.repository.put(project);
   }
 
   async findAll(): Promise<Project[]> {
     return await this.repository.getAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
-  }
+  // findOne(id: number) {
+  //   return `This action returns a #${id} project`;
+  // }
 
   async remove(id: string): Promise<void> {
-    const wasSuccess: boolean = await this.repository.delete(id);
-    if (wasSuccess) return;
-    throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    await this.repository.delete(id);
+    await this.uploadService.removeFolder(id);
   }
 }

@@ -60,7 +60,6 @@ function RemoveImagesSection(props: RemoveImagesSectionProps): JSX.Element | nul
 
 function isOldImageKeep(oldImages: OldImageStatus[], image: string) {
   const oldImage = oldImages.find(o => o.image === image);
-  console.log("OldImage: ", oldImage);
   return oldImage?.remove ?? false;
 }
 

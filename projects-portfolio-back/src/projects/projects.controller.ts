@@ -32,10 +32,4 @@ export class ProjectsController {
   async remove(@Param('id') id: string) {
     await this.projectsService.remove(id);
   }
-
-  @Post()
-  @UseGuards(AuthGuard)
-  async testAuth() {
-    return "Authorized!"
-  }
 }

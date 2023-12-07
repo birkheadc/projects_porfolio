@@ -1,4 +1,5 @@
 import { BulletPoint } from "../entities/bulletPoint";
+import { OldImageStatus } from "../entities/oldImageStatus";
 import { ProjectDescription } from "../entities/projectDescription";
 
 export class PutProjectDto {
@@ -13,6 +14,7 @@ export class PutProjectDto {
     longDescriptions: ProjectDescription[]
   };
   technologies: string[];
+  oldImages: OldImageStatus[];
 
   static fromFormData(formData: { [key: string]: string | undefined}): PutProjectDto {
     let dto = new PutProjectDto();

@@ -16,7 +16,5 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard)
-  async verifyToken() {
-    return;
-  }
+  async verifyToken() { }
 }

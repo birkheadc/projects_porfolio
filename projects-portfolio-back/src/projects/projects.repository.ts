@@ -1,19 +1,19 @@
 import { AttributeValue, DeleteItemCommand, DynamoDBClient, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Project } from "./entities/project.entity";
+import { ProjectsConfig } from "./projects.config";
 
 @Injectable()
 export class ProjectsRepository {
-  private readonly tableName = 'ProjectSummaries';
-  constructor(private readonly client: DynamoDBClient) {
-
+  constructor(private readonly client: DynamoDBClient, private readonly config: ProjectsConfig) {
+    
   }
 
   async getAll(): Promise<Project[]> {
     const projects: Project[] = [];
 
     const command = new ScanCommand({
-      TableName: this.tableName
+      TableName: this.config.tableName
     });
     try {
       const response = await this.client.send(command);
@@ -25,31 +25,31 @@ export class ProjectsRepository {
       }
     } catch (error) {
       console.log('Error while performing getAll: ', error);
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return projects;
   }
 
-  async put(project: Project): Promise<boolean> {
+  async put(project: Project): Promise<void> {
     const itemObject: Record<string, AttributeValue> = project.toItemObject();
 
     const command = new PutItemCommand({
-      TableName: this.tableName,
+      TableName: this.config.tableName,
       Item: itemObject
     })
 
     try {
       await this.client.send(command);
-      return true;
     } catch (error) {
       console.log('Error while performing put: ', error);
-      return false;
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<void> {
     const command = new DeleteItemCommand({
-      TableName: this.tableName,
+      TableName: this.config.tableName,
       Key: {
         id: {
           S: id
@@ -60,6 +60,6 @@ export class ProjectsRepository {
     });
 
     const result = await this.client.send(command);
-    return (result.Attributes != null);
+    if (result.Attributes == null) throw new HttpException("Not Found", HttpStatus.NOT_FOUND);
   }
 }

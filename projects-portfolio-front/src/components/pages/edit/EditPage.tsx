@@ -47,10 +47,8 @@ export default function EditPage(props: IEditPageProps): JSX.Element | null {
   }
 
   React.useEffect(function setOldProjectOnMount() {
-    console.log("Projects: ", projects);
     if (projects == null) return;
     const project = projects.find(p => p.id === id);
-    console.log("Project: ", project);
     setOldProject(project);
   }, [ projects ])
 

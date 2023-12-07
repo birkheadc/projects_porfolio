@@ -16,9 +16,6 @@ interface IProjectDisplayProps {
 * @returns {JSX.Element | null}
 */
 export default function ProjectDisplay(props: IProjectDisplayProps): JSX.Element | null {
-
-  console.log()
-
   const language = 'en';
   const { session } = React.useContext(SessionContext);
 

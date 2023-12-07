@@ -11,7 +11,6 @@ export default async function(newProject: NewProject, sessionToken: string | nul
       method: 'PUT',
       body: newProjectToFormData(newProject),
       headers: {
-        // 'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${sessionToken}`
       },
       signal: signal
@@ -22,7 +21,6 @@ export default async function(newProject: NewProject, sessionToken: string | nul
         .withGeneralError(response.status)
         .build();
     }
-    const projects = await response.json();
     return new ResultBuilder()
       .succeed()
       .build();    
