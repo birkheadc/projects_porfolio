@@ -5,11 +5,9 @@ import { ProjectsRepository } from './projects.repository';
 import { AuthModule } from '../auth/auth.module';
 import { UploadModule } from '../upload/upload.module';
 import { ProjectsConfig } from './projects.config';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 @Module({
   controllers: [ProjectsController],
-  providers: [ProjectsService, ProjectsRepository, ProjectsConfig],
-  imports: [AuthModule, UploadModule]
+  providers: [ProjectsService, ProjectsRepository, ProjectsConfig]
 })
 export class ProjectsModule {}

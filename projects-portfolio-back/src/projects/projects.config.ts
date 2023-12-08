@@ -9,12 +9,3 @@ export class ProjectsConfig extends InjectableConfig {
     super(configService, 'projects');
   }
 }
-
-// @Injectable()
-// export class ProjectsConfig extends InjectableConfig {
-//   region: string;
-//   tableName: string;
-//   constructor(configService: ConfigService) {
-//     super(configService, 'projects');
-//   }
-// }

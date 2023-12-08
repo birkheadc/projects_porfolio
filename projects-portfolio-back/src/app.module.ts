@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 
 @Module({
-  imports: [ProjectsModule, AuthModule, UploadModule, ConfigModule.forRoot({
+  imports: [ProjectsModule, ConfigModule.forRoot({
     load: [configuration],
     ignoreEnvFile: true,
     isGlobal: true
