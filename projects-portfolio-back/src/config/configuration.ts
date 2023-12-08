@@ -15,11 +15,26 @@ export default (): Configuration => ({
     secretName: 'ProjectsPortfolioSecretKey'
   },
   projects: {
-    region: 'ap-southeast-2',
-    tableName: 'ProjectSummaries'
+    username: 'birkheadc'
   },
   upload: {
     region: 'ap-southeast-2',
     bucketName: 'projects-portfolio-images'
   }
 })
+
+// export default (): Configuration => ({
+//   auth: {
+//     region: 'ap-southeast-2',
+//     secretId: 'BircheGames/Authentication/SecurityTokenConfig/SecretKey',
+//     secretName: 'ProjectsPortfolioSecretKey'
+//   },
+//   projects: {
+//     region: 'ap-southeast-2',
+//     tableName: 'ProjectSummaries'
+//   },
+//   upload: {
+//     region: 'ap-southeast-2',
+//     bucketName: 'projects-portfolio-images'
+//   }
+// })

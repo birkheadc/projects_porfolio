@@ -9,13 +9,13 @@ import { UploadService } from '../upload/upload.service';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @Put()
-  @UseGuards(AuthGuard)
-  @UseInterceptors(FilesInterceptor('images'))
-  async createOrUpdate(@UploadedFiles() files: Express.Multer.File[], @Body() formData: any) {
-    const dto = PutProjectDto.fromFormData(formData);
-    await this.projectsService.createOrUpdate(dto, files);
-  }
+  // @Put()
+  // @UseGuards(AuthGuard)
+  // @UseInterceptors(FilesInterceptor('images'))
+  // async createOrUpdate(@UploadedFiles() files: Express.Multer.File[], @Body() formData: any) {
+  //   const dto = PutProjectDto.fromFormData(formData);
+  //   await this.projectsService.createOrUpdate(dto, files);
+  // }
 
   @Get()
   async findAll() {
@@ -27,9 +27,9 @@ export class ProjectsController {
   //   return this.projectsService.findOne(+id);
   // }
 
-  @Delete(':id')
-  @UseGuards(AuthGuard)
-  async remove(@Param('id') id: string) {
-    await this.projectsService.remove(id);
-  }
+  // @Delete(':id')
+  // @UseGuards(AuthGuard)
+  // async remove(@Param('id') id: string) {
+  //   await this.projectsService.remove(id);
+  // }
 }

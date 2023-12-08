@@ -10,12 +10,12 @@ export class ProjectsService {
     
   }
 
-  async createOrUpdate(dto: PutProjectDto, files: Express.Multer.File[]): Promise<void> {
-    const project: Project = Project.fromPutProjectDto(dto);
-    const fileNames: string[] = await this.uploadService.uploadImages(project.id, files);
-    project.imageUrls = fileNames;
-    await this.repository.put(project);
-  }
+  // async createOrUpdate(dto: PutProjectDto, files: Express.Multer.File[]): Promise<void> {
+  //   const project: Project = Project.fromPutProjectDto(dto);
+  //   const fileNames: string[] = await this.uploadService.uploadImages(project.id, files);
+  //   project.imageUrls = fileNames;
+  //   await this.repository.put(project);
+  // }
 
   async findAll(): Promise<Project[]> {
     return await this.repository.getAll();
@@ -25,8 +25,8 @@ export class ProjectsService {
   //   return `This action returns a #${id} project`;
   // }
 
-  async remove(id: string): Promise<void> {
-    await this.repository.delete(id);
-    await this.uploadService.removeFolder(id);
-  }
+  // async remove(id: string): Promise<void> {
+  //   await this.repository.delete(id);
+  //   await this.uploadService.removeFolder(id);
+  // }
 }

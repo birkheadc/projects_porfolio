@@ -9,13 +9,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 @Module({
   controllers: [ProjectsController],
-  providers: [ProjectsService, ProjectsRepository, ProjectsConfig, {
-    provide: DynamoDBClient,
-    inject: [ProjectsConfig],
-    useFactory: (config: ProjectsConfig) => {
-      return new DynamoDBClient(config.region);
-    }
-  } ],
+  providers: [ProjectsService, ProjectsRepository, ProjectsConfig],
   imports: [AuthModule, UploadModule]
 })
 export class ProjectsModule {}

@@ -4,9 +4,17 @@ import { InjectableConfig } from "src/config/injectableConfig";
 
 @Injectable()
 export class ProjectsConfig extends InjectableConfig {
-  region: string;
-  tableName: string;
+  username: string;
   constructor(configService: ConfigService) {
     super(configService, 'projects');
   }
 }
+
+// @Injectable()
+// export class ProjectsConfig extends InjectableConfig {
+//   region: string;
+//   tableName: string;
+//   constructor(configService: ConfigService) {
+//     super(configService, 'projects');
+//   }
+// }
