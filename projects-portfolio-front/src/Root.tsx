@@ -6,7 +6,6 @@ import api from './api';
 import { SessionContext } from './components/contexts/session/SessionContext';
 import helpers from './helpers';
 import { SessionStatus, Sessions } from './types/session/session/session';
-import { GithubRepoParser } from '@birkheadc/github-repo-parser';
 
 interface IRootProps {
 
@@ -37,14 +36,6 @@ export default function Root(props: IRootProps): JSX.Element | null {
       setSession(Sessions.LOGGED_OUT);
     })(token);
   }, []);
-
-  // React.useEffect(() => {
-  //   (async function a() {
-  //     const parser = new GithubRepoParser({ username: 'birkheadc' });
-  //     const data = await parser.getAllData([ 'images' ]);
-  //     console.log(data);
-  //   })()
-  // }, []);
 
   React.useEffect(() => {
     (async function refreshProjectsOnMount() {
