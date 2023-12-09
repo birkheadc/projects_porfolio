@@ -19,7 +19,6 @@ export class Project {
   static fromGithubRepoParserResult(result: GithubRepoParserResult): Project {
     const project = new Project();
 
-    console.log("Turn this into a project: ", result.json);
     const json = result.json;
 
     project.id = json.id ?? '';
