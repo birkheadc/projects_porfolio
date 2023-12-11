@@ -9,4 +9,8 @@ export class ProjectsService {
   async findAll(): Promise<Project[]> {
     return await this.repository.getAll();
   }
+
+  async getCacheStatus(): Promise<string> {
+    return await this.repository.getCacheStatus();
+  }
 }

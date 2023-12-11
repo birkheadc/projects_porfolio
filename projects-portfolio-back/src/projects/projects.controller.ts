@@ -9,4 +9,9 @@ export class ProjectsController {
   async findAll() {
     return await this.projectsService.findAll();
   }
+
+  @Get('cache-status')
+  async getCacheStatus() {
+    return await this.projectsService.getCacheStatus();
+  }
 }

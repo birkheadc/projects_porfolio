@@ -28,7 +28,7 @@ export class ProjectsRepository {
     
   }
 
-  async fetchFromGithub(): Promise<Project[]> {
+  private async fetchFromGithub(): Promise<Project[]> {
     console.log('Fetching from github...');
     const projects: Project[] = [];
 
@@ -42,5 +42,12 @@ export class ProjectsRepository {
     });
 
     return projects;
+  }
+
+  async getCacheStatus(): Promise<string> {
+    if (this.cache == null) return 'The cache is empty.';
+    const now = Date.now();
+    if (this.cache.expires > now) return `The cache expires at ${this.cache.expires}. It is currently ${now}. It will expire in ${(((this.cache.expires - now) / 1000) / 60).toString().substring(0, 5)} minutes.`;
+    return `The cache expired at ${this.cache.expires}. It is currently ${now}. It expired ${(((now - this.cache.expires) / 1000) / 60).toString().substring(0, 5)} minutes ago.`;
   }
 }
