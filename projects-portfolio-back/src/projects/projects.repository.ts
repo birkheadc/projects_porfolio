@@ -12,13 +12,13 @@ export class ProjectsRepository {
     if (this.cache == undefined) {
       console.log("Cache was undefined. Populating cache.");
       const data = this.fetchFromGithub();
-      const expires = Date.now() + (1000 * 60 * 10);
+      const expires = Date.now() + (1000 * 60 * 15);
       this.cache = { data, expires }
     }
     if (Date.now() > this.cache.expires) {
       console.log("Cache has expired. Populating cache.");
       const data = this.fetchFromGithub();
-      const expires = Date.now() + (1000 * 60 * 10);
+      const expires = Date.now() + (1000 * 60 * 15);
       this.cache = { data, expires };
     } else {
       console.log("Cache was present and still valid. Sending cached data.");
