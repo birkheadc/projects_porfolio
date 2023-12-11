@@ -23,7 +23,7 @@ export class Project {
 
     project.id = json.id ?? '';
     project.title = json.title ?? '';
-    project.site = json.title ?? '';
+    project.site = json.site ?? '';
     project.source = json.source ?? '';
     project.favoriteLevel = parseInt(json.favoriteLevel ?? '0');
     project.descriptions = json.descriptions ?? {
