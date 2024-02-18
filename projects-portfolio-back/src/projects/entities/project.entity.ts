@@ -8,6 +8,7 @@ export class Project {
   site: string;
   source: string;
   favoriteLevel: number;
+  resumeFavoriteLevel: number;
   descriptions: {
     bulletPoints: BulletPoint[],
     shortDescriptions: ProjectDescription[],
@@ -26,6 +27,7 @@ export class Project {
     project.site = json.site ?? '';
     project.source = json.source ?? '';
     project.favoriteLevel = parseInt(json.favoriteLevel ?? '0');
+    project.resumeFavoriteLevel = parseInt(json.resumeFavoriteLevel ?? '0');
     project.descriptions = json.descriptions ?? {
       bulletPoints: [],
       shortDescriptions: [],
