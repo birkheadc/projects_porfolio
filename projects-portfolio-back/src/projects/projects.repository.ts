@@ -33,7 +33,14 @@ export class ProjectsRepository {
     console.log('Fetching from github...');
     const projects: Project[] = [];
 
-    const githubParser = new GithubRepoParser({ username: this.config.username, apiToken:  });
+    const API_KEY = process.env.API_KEY;
+
+    if (API_KEY == null) {
+      console.log('API_KEY not found. Aborting.');
+      return projects;
+    }
+
+    const githubParser = new GithubRepoParser({ username: this.config.username, apiToken: API_KEY });
     const data = await githubParser.getAllData([ 'images' ]);
 
     console.log(`Got data: ${JSON.stringify(data)}`);

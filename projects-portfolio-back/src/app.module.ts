@@ -7,7 +7,7 @@ import configuration from './config/configuration';
 @Module({
   imports: [ProjectsModule, ConfigModule.forRoot({
     load: [configuration],
-    ignoreEnvFile: true,
+    ignoreEnvFile: false,
     isGlobal: true
   })],
   controllers: [AppController],
