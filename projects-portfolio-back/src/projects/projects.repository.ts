@@ -9,9 +9,10 @@ export class ProjectsRepository {
   constructor(private readonly config: ProjectsConfig) { }
 
   async getAll(): Promise<Project[]> {
+    console.log('Get all...');
     if (this.cache == undefined) {
       console.log("Cache was undefined. Populating cache.");
-      const data = this.fetchFromGithub();
+      const data = await this.fetchFromGithub();
       const expires = Date.now() + (1000 * 60 * 15);
       this.cache = { data, expires }
     }
@@ -32,8 +33,10 @@ export class ProjectsRepository {
     console.log('Fetching from github...');
     const projects: Project[] = [];
 
-    const githubParser = new GithubRepoParser({ username: this.config.username });
+    const githubParser = new GithubRepoParser({ username: this.config.username, apiToken:  });
     const data = await githubParser.getAllData([ 'images' ]);
+
+    console.log(`Got data: ${JSON.stringify(data)}`);
 
     if (data == null) return projects;
 

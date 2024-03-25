@@ -19,9 +19,10 @@ export class Project {
 
   static fromGithubRepoParserResult(result: GithubRepoParserResult): Project {
     const project = new Project();
-
+    if (result == null) return project;
     const json = result.json;
-
+    if (json == null) return project;
+    
     project.id = json.id ?? '';
     project.title = json.title ?? '';
     project.site = json.site ?? '';
