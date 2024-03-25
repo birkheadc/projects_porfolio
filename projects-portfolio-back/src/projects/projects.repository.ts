@@ -43,8 +43,6 @@ export class ProjectsRepository {
     const githubParser = new GithubRepoParser({ username: this.config.username, apiToken: API_KEY });
     const data = await githubParser.getAllData([ 'images' ]);
 
-    console.log(`Got data: ${JSON.stringify(data)}`);
-
     if (data == null) return projects;
 
     data.forEach(result => {
